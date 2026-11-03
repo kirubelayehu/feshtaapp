@@ -3,360 +3,580 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FESHTA | Gaming Universe</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+
+<title>FESHTA - Premium Games</title>
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-* { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --black: #090909;
+  --dark: #111111;
+  --panel: #191919;
+  --panel2: #222222;
+  --gold: #D4AF37;
+  --gold-light: #F5D778;
+  --muted: #999999;
+  --white: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+}
 
 body {
-  background:#090811;
-  color:#fff;
-  font-family:Arial,sans-serif;
-  padding:20px 17px 100px;
+  margin: 0;
+  background: var(--black);
+  color: var(--white);
+  font-family: Arial, sans-serif;
+  padding-bottom: 85px;
 }
+
+/* TOP HEADER */
 
 header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:28px;
+  height: 58px;
+  background: #101010;
+  border-bottom: 1px solid #292929;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.brand {
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:2px;
-  background:linear-gradient(90deg,#c4a3ff,#8054ff);
-  background-clip:text;
-  -webkit-background-clip:text;
-  color:transparent;
+.logo {
+  color: var(--gold);
+  font-size: 23px;
+  font-weight: 900;
+  letter-spacing: 2px;
 }
 
-.avatar {
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#8d52ff,#35206e);
-  display:grid;
-  place-items:center;
-  font-size:21px;
-  border:1px solid #a77bff;
-}
-
-.welcome { margin-bottom:23px; }
-
-.welcome small {
-  color:#a58acb;
-  letter-spacing:2px;
-  font-size:10px;
-}
-
-.welcome h1 {
-  font-size:26px;
-  margin:9px 0;
-}
-
-.welcome p {
-  color:#918da5;
-  font-size:13px;
-}
-
-.wallet {
-  padding:23px;
-  border-radius:22px;
-  background:
-    radial-gradient(circle at 90% 10%,#7949cc 0,transparent 45%),
-    linear-gradient(130deg,#261541,#17152c);
-  border:1px solid #63429b;
-  box-shadow:0 10px 35px #5423a52a;
-  margin-bottom:30px;
-  position:relative;
-  overflow:hidden;
-}
-
-.wallet-label {
-  color:#c7b8e5;
-  font-size:11px;
-  letter-spacing:1.5px;
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .balance {
-  font-size:38px;
-  font-weight:900;
-  margin:15px 0 7px;
+  background: #252525;
+  border: 1px solid #393939;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--gold-light);
 }
 
-.wallet-footer {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-top:20px;
+.icon-button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: #D4AF37;
+  color: #090909;
+  font-size: 19px;
+  font-weight: bold;
 }
 
-.wallet-footer small { color:#c4b6dd; }
-
-.wallet button {
-  border:0;
-  background:#fff;
-  color:#542e91;
-  padding:11px 17px;
-  border-radius:10px;
-  font-weight:bold;
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #302719;
+  border: 1px solid var(--gold);
+  display: grid;
+  place-items: center;
+  font-size: 19px;
 }
 
-.section {
-  margin-bottom:29px;
+/* MAIN CONTENT */
+
+main {
+  padding: 10px 8px;
 }
+
+/* PROMOTION */
+
+.promotion {
+  background: linear-gradient(110deg, #29251a, #49402a);
+  border: 1px solid #6b572b;
+  border-radius: 9px;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 13px;
+  cursor: pointer;
+}
+
+.promotion h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.promotion p {
+  margin: 5px 0 0;
+  font-size: 11px;
+  color: #d2c49b;
+}
+
+.promo-icon {
+  font-size: 32px;
+}
+
+/* HERO BANNER */
+
+.hero {
+  min-height: 180px;
+  border-radius: 12px;
+  border: 1px solid #66501e;
+  overflow: hidden;
+  position: relative;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  background:
+    radial-gradient(circle at 75% 20%, #d4af3740, transparent 35%),
+    linear-gradient(130deg, #211a0c, #111111 60%, #3b2b10);
+}
+
+.hero::before {
+  content: "♛";
+  position: absolute;
+  right: 18px;
+  top: 2px;
+  font-size: 125px;
+  color: #e5c45c;
+  opacity: .18;
+}
+
+.hero-label {
+  color: var(--gold-light);
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: 25px;
+  margin: 8px 0;
+  z-index: 1;
+}
+
+.hero p {
+  color: #d1c8b0;
+  font-size: 12px;
+  margin: 0;
+  z-index: 1;
+}
+
+/* SECTION HEADINGS */
 
 .section-heading {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 22px 3px 6px;
 }
 
-.section-heading h2 { font-size:19px; }
+.section-heading h2 {
+  margin: 0;
+  font-size: 15px;
+}
 
 .section-heading span {
-  color:#ad86ff;
-  font-size:12px;
+  font-size: 10px;
+  color: var(--gold);
 }
 
-.featured {
-  background:linear-gradient(110deg,#301b51,#18152d);
-  border:1px solid #49316b;
-  padding:19px;
-  border-radius:19px;
-  margin-bottom:15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.subtitle {
+  margin: 7px 3px 12px;
+  color: var(--muted);
+  font-size: 11px;
 }
 
-.featured h3 { font-size:17px; margin-bottom:7px; }
+/* PLAYER CARDS */
 
-.featured p {
-  color:#b5a7cc;
-  font-size:11px;
+.winners {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 3px 9px;
+  scrollbar-width: none;
 }
 
-.featured-icon { font-size:43px; }
+.winners::-webkit-scrollbar,
+.games::-webkit-scrollbar {
+  display: none;
+}
+
+.winner-card {
+  flex: 0 0 105px;
+  background: #1b1b1b;
+  border: 1px solid #393126;
+  border-radius: 11px;
+  padding: 11px 8px;
+  text-align: center;
+}
+
+.winner-avatar {
+  width: 43px;
+  height: 43px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #f5d778, #7e5c13);
+  display: grid;
+  place-items: center;
+  color: #17120a;
+  font-size: 22px;
+}
+
+.winner-card h3 {
+  font-size: 11px;
+  margin: 4px 0;
+  color: var(--gold-light);
+}
+
+.winner-card p {
+  font-size: 10px;
+  color: #bbbbbb;
+  margin: 4px 0;
+}
+
+.demo-label {
+  font-size: 9px;
+  color: #8d8d8d;
+  margin-top: 6px;
+}
+
+/* GAME CARDS */
 
 .games {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding: 2px 3px 12px;
+  scrollbar-width: none;
 }
 
-.game {
-  min-height:155px;
-  padding:17px;
-  border-radius:18px;
-  border:1px solid #302941;
-  background:linear-gradient(145deg,#211c31,#12111d);
-  cursor:pointer;
-  transition:transform .2s,border-color .2s;
+.game-card {
+  flex: 0 0 145px;
+  height: 155px;
+  border-radius: 11px;
+  border: 1px solid #56451f;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(145deg, #392b12, #17130c 65%, #282014);
+  cursor: pointer;
+  transition: transform .15s;
 }
 
-.game:active {
-  transform:scale(.96);
-  border-color:#a77bff;
+.game-card:active {
+  transform: scale(.96);
 }
 
-.game-icon {
-  font-size:36px;
-  margin-bottom:17px;
+.game-art {
+  height: 95px;
+  display: grid;
+  place-items: center;
+  font-size: 54px;
+  background:
+    radial-gradient(circle, #d4af3740, transparent 65%);
 }
 
-.game h3 {
-  font-size:14px;
-  margin-bottom:6px;
+.game-info {
+  padding: 8px 10px;
 }
 
-.game p {
-  font-size:11px;
-  color:#938da5;
+.game-info h3 {
+  font-size: 13px;
+  margin: 0 0 4px;
 }
 
-.challenge {
-  padding:19px;
-  background:#191528;
-  border:1px solid #38304d;
-  border-radius:18px;
+.game-info p {
+  font-size: 10px;
+  color: #b5a986;
+  margin: 0;
 }
 
-.challenge h3 { margin-bottom:8px; }
+/* WALLET FEATURE */
 
-.challenge p {
-  color:#a49bb7;
-  font-size:12px;
-  line-height:1.6;
+.wallet-box {
+  background: linear-gradient(120deg, #282115, #15120c);
+  border: 1px solid #6a5427;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 18px;
 }
 
-.progress {
-  height:7px;
-  background:#302940;
-  border-radius:10px;
-  margin-top:15px;
-  overflow:hidden;
+.wallet-box h3 {
+  font-size: 14px;
+  margin: 0 0 9px;
 }
 
-.progress div {
-  width:35%;
-  height:100%;
-  background:linear-gradient(90deg,#814bff,#c19aff);
-  border-radius:10px;
+.wallet-coins {
+  color: var(--gold-light);
+  font-size: 27px;
+  font-weight: bold;
 }
+
+.wallet-box p {
+  font-size: 11px;
+  color: #b8ac8b;
+  margin-bottom: 0;
+}
+
+/* BOTTOM NAVIGATION */
 
 nav {
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#141120;
-  border-top:1px solid #302840;
-  display:flex;
-  justify-content:space-around;
-  padding:13px 5px max(13px,env(safe-area-inset-bottom));
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: #101010;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 20;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 nav button {
-  background:none;
-  border:0;
-  color:#827b94;
-  font-size:11px;
-  cursor:pointer;
+  background: none;
+  border: none;
+  color: #888888;
+  font-size: 10px;
+  cursor: pointer;
 }
 
-nav button.active { color:#b58aff; }
+nav button.active {
+  color: var(--gold);
+}
 
 nav span {
-  display:block;
-  font-size:21px;
-  margin-bottom:5px;
+  display: block;
+  font-size: 20px;
+  margin-bottom: 4px;
 }
 
-@media(min-width:600px) {
-  body { max-width:600px; margin:auto; }
-}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="brand">FESHTA.</div>
-  <div class="avatar">👤</div>
+  <div class="logo">♛ FESHTA</div>
+
+  <div class="header-actions">
+    <div class="balance" id="topBalance">🪙 1,000</div>
+
+    <button class="icon-button"
+      onclick="showMessage('Virtual coin features coming soon.')">
+      +
+    </button>
+
+    <div class="avatar"
+      onclick="showMessage('Player profile coming soon.')">
+      👤
+    </div>
+  </div>
 </header>
 
-<section class="welcome">
-  <small>YOUR GAMING UNIVERSE</small>
-  <h1>Welcome to FESHTA 👋</h1>
-  <p>Play. Explore. Challenge yourself.</p>
-</section>
+<main>
 
-<section class="wallet">
-  <div class="wallet-label">✦ YOUR VIRTUAL BALANCE</div>
-  <div class="balance">1,000 🪙</div>
-  <div class="wallet-label">Your journey starts here.</div>
-  <div class="wallet-footer">
-    <small>FESHTA COINS</small>
-    <button onclick="notify('Your wallet is coming soon!')">
-      My Wallet →
-    </button>
-  </div>
-</section>
+  <!-- PROMOTIONAL BANNER -->
 
-<section class="section">
-  <div class="section-heading">
-    <h2>✦ Featured</h2>
-    <span>EXPLORE</span>
-  </div>
+  <section class="promotion"
+    onclick="showMessage('Promotions coming soon.')">
 
-  <div class="featured" onclick="notify('Featured game coming soon!')">
     <div>
-      <h3>🎲 Featured Game</h3>
-      <p>Ready for your next challenge?</p>
+      <h3>🎁 Have a Promo Code?</h3>
+      <p>Special FESHTA rewards are coming soon.</p>
     </div>
-    <div class="featured-icon">⚡</div>
-  </div>
-</section>
 
-<section class="section">
+    <div class="promo-icon">🎁</div>
+  </section>
+
+  <!-- MAIN BANNER -->
+
+  <section class="hero">
+    <div class="hero-label">WELCOME TO FESHTA</div>
+    <h1>ENTER THE ROYAL ARENA</h1>
+    <p>Play games. Enjoy the experience. Earn virtual coins.</p>
+  </section>
+
+  <!-- TOP PLAYERS -->
+
   <div class="section-heading">
-    <h2>🎮 Game Arena</h2>
-    <span>4 GAMES</span>
+    <h2>🏆 Top Players</h2>
+    <span>PLAYER HIGHLIGHTS</span>
   </div>
 
-  <div class="games">
-    <div class="game" onclick="notify('Dice Game coming soon!')">
-      <div class="game-icon">🎲</div>
-      <h3>Dice Arena</h3>
-      <p>Test your strategy</p>
+  <p class="subtitle">
+    Example player cards — real rankings coming soon.
+  </p>
+
+  <section class="winners">
+
+    <div class="winner-card">
+      <div class="winner-avatar">👑</div>
+      <h3>Gold King</h3>
+      <p>3,500 🪙</p>
+      <div class="demo-label">DEMO PLAYER</div>
     </div>
 
-    <div class="game" onclick="notify('Card Game coming soon!')">
-      <div class="game-icon">🃏</div>
-      <h3>Card Masters</h3>
-      <p>Challenge yourself</p>
+    <div class="winner-card">
+      <div class="winner-avatar">🎮</div>
+      <h3>Player 02</h3>
+      <p>2,800 🪙</p>
+      <div class="demo-label">DEMO PLAYER</div>
     </div>
 
-    <div class="game" onclick="notify('Target Game coming soon!')">
-      <div class="game-icon">🎯</div>
-      <h3>Lucky Target</h3>
-      <p>Test your accuracy</p>
+    <div class="winner-card">
+      <div class="winner-avatar">🦁</div>
+      <h3>Royal Lion</h3>
+      <p>2,100 🪙</p>
+      <div class="demo-label">DEMO PLAYER</div>
     </div>
 
-    <div class="game" onclick="notify('Puzzle Game coming soon!')">
-      <div class="game-icon">🧩</div>
-      <h3>Brain Zone</h3>
-      <p>Train your brain</p>
+    <div class="winner-card">
+      <div class="winner-avatar">⭐</div>
+      <h3>Star Player</h3>
+      <p>1,900 🪙</p>
+      <div class="demo-label">DEMO PLAYER</div>
     </div>
-  </div>
-</section>
 
-<section class="section">
+  </section>
+
+  <!-- FEATURED GAMES -->
+
   <div class="section-heading">
-    <h2>🏆 Daily Challenge</h2>
+    <h2>🎮 Featured Games</h2>
+    <span>VIEW ALL</span>
   </div>
 
-  <div class="challenge">
-    <h3>Complete your first challenge</h3>
-    <p>Your FESHTA adventure is just beginning. Explore the games arena!</p>
-    <div class="progress"><div></div></div>
-    <p style="margin-top:10px">Progress: 0 / 3</p>
-  </div>
-</section>
+  <p class="subtitle">
+    Explore the FESHTA game collection.
+  </p>
+
+  <section class="games">
+
+    <div class="game-card" onclick="openGame('Lucky Spin')">
+      <div class="game-art">🎡</div>
+      <div class="game-info">
+        <h3>Lucky Spin</h3>
+        <p>Virtual coin game</p>
+      </div>
+    </div>
+
+    <div class="game-card" onclick="openGame('Dice Royale')">
+      <div class="game-art">🎲</div>
+      <div class="game-info">
+        <h3>Dice Royale</h3>
+        <p>Roll and play</p>
+      </div>
+    </div>
+
+    <div class="game-card" onclick="openGame('Card Masters')">
+      <div class="game-art">🃏</div>
+      <div class="game-info">
+        <h3>Card Masters</h3>
+        <p>Card challenge</p>
+      </div>
+    </div>
+
+    <div class="game-card" onclick="openGame('Lucky Wheel')">
+      <div class="game-art">🎯</div>
+      <div class="game-info">
+        <h3>Lucky Wheel</h3>
+        <p>Test your luck</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- VIRTUAL WALLET -->
+
+  <section class="wallet-box">
+    <h3>👑 Your FESHTA Wallet</h3>
+    <div class="wallet-coins">1,000 🪙</div>
+    <p>Demo virtual balance. No real-money value.</p>
+  </section>
+
+</main>
+
+<!-- BOTTOM MENU -->
 
 <nav>
-  <button class="active" onclick="notify('Home')">
-    <span>⌂</span>Home
+
+  <button class="active" onclick="selectTab(this,'Home')">
+    <span>⌂</span>
+    Home
   </button>
-  <button onclick="notify('Games lobby coming soon!')">
-    <span>🎮</span>Games
+
+  <button onclick="selectTab(this,'Games')">
+    <span>🎮</span>
+    Games
   </button>
-  <button onclick="notify('Leaderboard coming soon!')">
-    <span>🏆</span>Rank
+
+  <button onclick="selectTab(this,'Winners')">
+    <span>🏆</span>
+    Winners
   </button>
-  <button onclick="notify('Profile coming soon!')">
-    <span>👤</span>Profile
+
+  <button onclick="selectTab(this,'Profile')">
+    <span>👤</span>
+    Profile
   </button>
+
 </nav>
 
 <script>
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
 
-function notify(message) {
-  if (tg.showAlert) {
+const tg = window.Telegram?.WebApp;
+
+if (tg) {
+  tg.ready();
+  tg.expand();
+  tg.setHeaderColor('#090909');
+  tg.setBackgroundColor('#090909');
+}
+
+function showMessage(message) {
+  if (tg) {
     tg.showAlert(message);
   } else {
     alert(message);
   }
 }
+
+function openGame(game) {
+  showMessage(game + ' will be available soon!');
+}
+
+function selectTab(button, tab) {
+
+  document.querySelectorAll('nav button').forEach(item => {
+    item.classList.remove('active');
+  });
+
+  button.classList.add('active');
+
+  if (tab !== 'Home') {
+    showMessage(tab + ' section is coming soon!');
+  }
+}
+
 </script>
 
 </body>
