@@ -1,196 +1,245 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FESHTA Gaming</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FESHTA | Gaming Universe</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing:border-box; margin:0; padding:0; }
 
 body {
-    background: #0c0b18;
-    color: #ffffff;
-    font-family: Arial, sans-serif;
-    padding: 20px 16px 100px;
+  background:#090811;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  padding:20px 17px 100px;
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:28px;
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    color: #a78bfa;
+.brand {
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,#c4a3ff,#8054ff);
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
-.profile {
-    background: #211d36;
-    padding: 10px 13px;
-    border-radius: 25px;
-    font-size: 13px;
+.avatar {
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#8d52ff,#35206e);
+  display:grid;
+  place-items:center;
+  font-size:21px;
+  border:1px solid #a77bff;
 }
 
-.welcome {
-    margin-bottom: 20px;
+.welcome { margin-bottom:23px; }
+
+.welcome small {
+  color:#a58acb;
+  letter-spacing:2px;
+  font-size:10px;
 }
 
-.welcome h2 {
-    font-size: 23px;
-    margin-bottom: 7px;
+.welcome h1 {
+  font-size:26px;
+  margin:9px 0;
 }
 
-.muted {
-    color: #9995b2;
-    font-size: 13px;
+.welcome p {
+  color:#918da5;
+  font-size:13px;
 }
 
 .wallet {
-    background: linear-gradient(120deg, #7138d8, #2866d8);
-    padding: 22px;
-    border-radius: 20px;
-    margin-bottom: 28px;
-    box-shadow: 0 8px 30px #5427a544;
+  padding:23px;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 90% 10%,#7949cc 0,transparent 45%),
+    linear-gradient(130deg,#261541,#17152c);
+  border:1px solid #63429b;
+  box-shadow:0 10px 35px #5423a52a;
+  margin-bottom:30px;
+  position:relative;
+  overflow:hidden;
 }
 
 .wallet-label {
-    font-size: 13px;
-    opacity: .85;
+  color:#c7b8e5;
+  font-size:11px;
+  letter-spacing:1.5px;
 }
 
 .balance {
-    font-size: 34px;
-    font-weight: 900;
-    margin: 12px 0;
+  font-size:38px;
+  font-weight:900;
+  margin:15px 0 7px;
 }
+
+.wallet-footer {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:20px;
+}
+
+.wallet-footer small { color:#c4b6dd; }
 
 .wallet button {
-    background: white;
-    color: #4d35a6;
-    border: none;
-    padding: 11px 18px;
-    border-radius: 10px;
-    font-weight: bold;
-    margin-top: 8px;
+  border:0;
+  background:#fff;
+  color:#542e91;
+  padding:11px 17px;
+  border-radius:10px;
+  font-weight:bold;
 }
 
-.section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+.section {
+  margin-bottom:29px;
 }
 
-.section-title h3 {
-    font-size: 19px;
+.section-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
 }
 
-.section-title span {
-    color: #a78bfa;
-    font-size: 12px;
+.section-heading h2 { font-size:19px; }
+
+.section-heading span {
+  color:#ad86ff;
+  font-size:12px;
 }
+
+.featured {
+  background:linear-gradient(110deg,#301b51,#18152d);
+  border:1px solid #49316b;
+  padding:19px;
+  border-radius:19px;
+  margin-bottom:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.featured h3 { font-size:17px; margin-bottom:7px; }
+
+.featured p {
+  color:#b5a7cc;
+  font-size:11px;
+}
+
+.featured-icon { font-size:43px; }
 
 .games {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 13px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
 }
 
 .game {
-    background: #19172a;
-    border: 1px solid #302a49;
-    border-radius: 17px;
-    padding: 19px 13px;
-    min-height: 145px;
-    cursor: pointer;
-    transition: .2s;
+  min-height:155px;
+  padding:17px;
+  border-radius:18px;
+  border:1px solid #302941;
+  background:linear-gradient(145deg,#211c31,#12111d);
+  cursor:pointer;
+  transition:transform .2s,border-color .2s;
 }
 
 .game:active {
-    transform: scale(.96);
+  transform:scale(.96);
+  border-color:#a77bff;
 }
 
 .game-icon {
-    font-size: 35px;
-    margin-bottom: 13px;
+  font-size:36px;
+  margin-bottom:17px;
 }
 
-.game h4 {
-    font-size: 15px;
-    margin-bottom: 6px;
+.game h3 {
+  font-size:14px;
+  margin-bottom:6px;
 }
 
 .game p {
-    color: #9995b2;
-    font-size: 11px;
+  font-size:11px;
+  color:#938da5;
 }
 
-.promo {
-    background: #19172a;
-    border: 1px solid #302a49;
-    padding: 19px;
-    border-radius: 17px;
-    margin-top: 25px;
+.challenge {
+  padding:19px;
+  background:#191528;
+  border:1px solid #38304d;
+  border-radius:18px;
 }
 
-.promo h3 {
-    margin-bottom: 8px;
+.challenge h3 { margin-bottom:8px; }
+
+.challenge p {
+  color:#a49bb7;
+  font-size:12px;
+  line-height:1.6;
 }
 
-.promo p {
-    color: #aaa5c0;
-    font-size: 13px;
-    line-height: 1.5;
+.progress {
+  height:7px;
+  background:#302940;
+  border-radius:10px;
+  margin-top:15px;
+  overflow:hidden;
+}
+
+.progress div {
+  width:35%;
+  height:100%;
+  background:linear-gradient(90deg,#814bff,#c19aff);
+  border-radius:10px;
 }
 
 nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: #171528;
-    border-top: 1px solid #302a49;
-    display: flex;
-    justify-content: space-around;
-    padding: 13px 5px;
-    padding-bottom: max(13px, env(safe-area-inset-bottom));
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  background:#141120;
+  border-top:1px solid #302840;
+  display:flex;
+  justify-content:space-around;
+  padding:13px 5px max(13px,env(safe-area-inset-bottom));
 }
 
 nav button {
-    background: none;
-    border: none;
-    color: #9995b2;
-    font-size: 11px;
-    cursor: pointer;
+  background:none;
+  border:0;
+  color:#827b94;
+  font-size:11px;
+  cursor:pointer;
 }
 
-nav button.active {
-    color: #a78bfa;
-}
+nav button.active { color:#b58aff; }
 
 nav span {
-    display: block;
-    font-size: 21px;
-    margin-bottom: 5px;
+  display:block;
+  font-size:21px;
+  margin-bottom:5px;
 }
 
-@media (min-width: 600px) {
-    body {
-        max-width: 600px;
-        margin: auto;
-    }
+@media(min-width:600px) {
+  body { max-width:600px; margin:auto; }
 }
 </style>
 </head>
@@ -198,75 +247,102 @@ nav span {
 <body>
 
 <header>
-    <div class="logo">🎮 FESHTA</div>
-    <div class="profile">👤 Player</div>
+  <div class="brand">FESHTA.</div>
+  <div class="avatar">👤</div>
 </header>
 
 <section class="welcome">
-    <h2>Welcome back! 👋</h2>
-    <p class="muted">Your gaming adventure starts here.</p>
+  <small>YOUR GAMING UNIVERSE</small>
+  <h1>Welcome to FESHTA 👋</h1>
+  <p>Play. Explore. Challenge yourself.</p>
 </section>
 
 <section class="wallet">
-    <div class="wallet-label">💰 YOUR VIRTUAL COINS</div>
-    <div class="balance">1,000 🪙</div>
-    <div class="wallet-label">Keep playing and earn more points!</div>
-    <button onclick="showMessage('Your virtual wallet is coming soon!')">
-        View Wallet →
+  <div class="wallet-label">✦ YOUR VIRTUAL BALANCE</div>
+  <div class="balance">1,000 🪙</div>
+  <div class="wallet-label">Your journey starts here.</div>
+  <div class="wallet-footer">
+    <small>FESHTA COINS</small>
+    <button onclick="notify('Your wallet is coming soon!')">
+      My Wallet →
     </button>
+  </div>
 </section>
 
-<div class="section-title">
-    <h3>🎮 Popular Games</h3>
-    <span>Explore all →</span>
-</div>
+<section class="section">
+  <div class="section-heading">
+    <h2>✦ Featured</h2>
+    <span>EXPLORE</span>
+  </div>
 
-<section class="games">
-
-    <div class="game" onclick="showMessage('Dice Game coming soon!')">
-        <div class="game-icon">🎲</div>
-        <h4>Dice Game</h4>
-        <p>Test your luck and skill</p>
+  <div class="featured" onclick="notify('Featured game coming soon!')">
+    <div>
+      <h3>🎲 Featured Game</h3>
+      <p>Ready for your next challenge?</p>
     </div>
-
-    <div class="game" onclick="showMessage('Card Game coming soon!')">
-        <div class="game-icon">🃏</div>
-        <h4>Card Game</h4>
-        <p>Challenge yourself</p>
-    </div>
-
-    <div class="game" onclick="showMessage('Lucky Target coming soon!')">
-        <div class="game-icon">🎯</div>
-        <h4>Lucky Target</h4>
-        <p>Hit your target</p>
-    </div>
-
-    <div class="game" onclick="showMessage('Puzzle Game coming soon!')">
-        <div class="game-icon">🧩</div>
-        <h4>Puzzle Game</h4>
-        <p>Train your brain</p>
-    </div>
-
+    <div class="featured-icon">⚡</div>
+  </div>
 </section>
 
-<section class="promo">
-    <h3>💜 Invite Your Friends</h3>
-    <p>Bring your friends to FESHTA and enjoy gaming together!</p>
+<section class="section">
+  <div class="section-heading">
+    <h2>🎮 Game Arena</h2>
+    <span>4 GAMES</span>
+  </div>
+
+  <div class="games">
+    <div class="game" onclick="notify('Dice Game coming soon!')">
+      <div class="game-icon">🎲</div>
+      <h3>Dice Arena</h3>
+      <p>Test your strategy</p>
+    </div>
+
+    <div class="game" onclick="notify('Card Game coming soon!')">
+      <div class="game-icon">🃏</div>
+      <h3>Card Masters</h3>
+      <p>Challenge yourself</p>
+    </div>
+
+    <div class="game" onclick="notify('Target Game coming soon!')">
+      <div class="game-icon">🎯</div>
+      <h3>Lucky Target</h3>
+      <p>Test your accuracy</p>
+    </div>
+
+    <div class="game" onclick="notify('Puzzle Game coming soon!')">
+      <div class="game-icon">🧩</div>
+      <h3>Brain Zone</h3>
+      <p>Train your brain</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <h2>🏆 Daily Challenge</h2>
+  </div>
+
+  <div class="challenge">
+    <h3>Complete your first challenge</h3>
+    <p>Your FESHTA adventure is just beginning. Explore the games arena!</p>
+    <div class="progress"><div></div></div>
+    <p style="margin-top:10px">Progress: 0 / 3</p>
+  </div>
 </section>
 
 <nav>
-    <button class="active" onclick="showMessage('Home')">
-        <span>🏠</span>Home
-    </button>
-    <button onclick="showMessage('Games lobby coming soon!')">
-        <span>🎮</span>Games
-    </button>
-    <button onclick="showMessage('Leaderboard coming soon!')">
-        <span>🏆</span>Rank
-    </button>
-    <button onclick="showMessage('Player profile coming soon!')">
-        <span>👤</span>Profile
-    </button>
+  <button class="active" onclick="notify('Home')">
+    <span>⌂</span>Home
+  </button>
+  <button onclick="notify('Games lobby coming soon!')">
+    <span>🎮</span>Games
+  </button>
+  <button onclick="notify('Leaderboard coming soon!')">
+    <span>🏆</span>Rank
+  </button>
+  <button onclick="notify('Profile coming soon!')">
+    <span>👤</span>Profile
+  </button>
 </nav>
 
 <script>
@@ -274,12 +350,12 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 
-function showMessage(message) {
-    if (tg.showAlert) {
-        tg.showAlert(message);
-    } else {
-        alert(message);
-    }
+function notify(message) {
+  if (tg.showAlert) {
+    tg.showAlert(message);
+  } else {
+    alert(message);
+  }
 }
 </script>
 
