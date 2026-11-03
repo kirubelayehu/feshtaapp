@@ -576,6 +576,85 @@ nav span {
 //     showMessage(tab + ' section is coming soon!');
 //   }
 // }
+
+const tg = window.Telegram?.WebApp;
+
+
+if (tg) {
+  tg.ready();
+  tg.expand();
+  tg.setHeaderColor("#090909");
+  tg.setBackgroundColor("#090909");
+}
+
+function showMessage(message) {
+  if (tg) {
+    tg.showAlert(message);
+  } else {
+    alert(message);
+  }
+}
+
+async function loadPlayerAccount() {
+  const topBalance = document.getElementById("topBalance");
+  const walletBalance = document.getElementById("walletBalance");
+  const walletStatus = document.getElementById("walletStatus");
+
+  if (!tg || !tg.initData) {
+    topBalance.textContent = "🪙 --";
+    walletBalance.textContent = "--";
+    walletStatus.textContent = "Open FESHTA inside Telegram.";
+    return;
+  }
+
+  try {
+    walletStatus.textContent = "Connecting to your account...";
+
+    const response = await fetch(`${API_URL}/api/me`, {
+      method: "GET",
+      headers: {
+        "X-Telegram-Init-Data": tg.initData
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Account connection failed");
+    }
+
+    const coins = Number(data.player.coins).toLocaleString();
+
+    topBalance.textContent = `🪙 ${coins}`;
+    walletBalance.textContent = `${coins} 🪙`;
+    walletStatus.textContent = "Your virtual coin balance is saved securely.";
+
+  } catch (error) {
+    console.error("FESHTA account error:", error);
+    topBalance.textContent = "🪙 Error";
+    walletBalance.textContent = "Unavailable";
+    walletStatus.textContent = error.message;
+  }
+}
+
+function openGame(game) {
+  showMessage(game + " will be available soon!");
+}
+
+function selectTab(button, tab) {
+  document.querySelectorAll("nav button").forEach(item => {
+    item.classList.remove("active");
+  });
+
+  button.classList.add("active");
+
+  if (tab !== "Home") {
+    showMessage(tab + " section is coming soon!");
+  }
+}
+
+loadPlayerAccount();
+
 const API_URL = "https://feshta-backend.onrender.com/";
 </script>
 
