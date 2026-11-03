@@ -1,139 +1,287 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FESHTA Gaming</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FESHTA Gaming</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+body {
+    background: #0c0b18;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    padding: 20px 16px 100px;
+}
 
-        body {
-            margin: 0;
-            padding: 20px;
-            background: #101322;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #a78bfa;
+}
 
-        .logo {
-            font-size: 27px;
-            font-weight: bold;
-            color: #a78bfa;
-        }
+.profile {
+    background: #211d36;
+    padding: 10px 13px;
+    border-radius: 25px;
+    font-size: 13px;
+}
 
-        .wallet {
-            background: #242944;
-            padding: 18px;
-            border-radius: 16px;
-            margin-top: 25px;
-        }
+.welcome {
+    margin-bottom: 20px;
+}
 
-        .balance {
-            font-size: 30px;
-            font-weight: bold;
-            margin-top: 8px;
-        }
+.welcome h2 {
+    font-size: 23px;
+    margin-bottom: 7px;
+}
 
-        h2 {
-            margin-top: 30px;
-        }
+.muted {
+    color: #9995b2;
+    font-size: 13px;
+}
 
-        .games {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+.wallet {
+    background: linear-gradient(120deg, #7138d8, #2866d8);
+    padding: 22px;
+    border-radius: 20px;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 30px #5427a544;
+}
 
-        .game {
-            background: #242944;
-            padding: 22px 12px;
-            border-radius: 15px;
-            text-align: center;
-            font-size: 17px;
-        }
+.wallet-label {
+    font-size: 13px;
+    opacity: .85;
+}
 
-        .game-icon {
-            font-size: 38px;
-            margin-bottom: 10px;
-        }
+.balance {
+    font-size: 34px;
+    font-weight: 900;
+    margin: 12px 0;
+}
 
-        .nav {
-            display: flex;
-            justify-content: space-around;
-            background: #242944;
-            padding: 17px 5px;
-            border-radius: 15px;
-            margin-top: 30px;
-        }
+.wallet button {
+    background: white;
+    color: #4d35a6;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    margin-top: 8px;
+}
 
-        .nav span {
-            font-size: 13px;
-            text-align: center;
-        }
-    </style>
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-title h3 {
+    font-size: 19px;
+}
+
+.section-title span {
+    color: #a78bfa;
+    font-size: 12px;
+}
+
+.games {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px;
+}
+
+.game {
+    background: #19172a;
+    border: 1px solid #302a49;
+    border-radius: 17px;
+    padding: 19px 13px;
+    min-height: 145px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.game:active {
+    transform: scale(.96);
+}
+
+.game-icon {
+    font-size: 35px;
+    margin-bottom: 13px;
+}
+
+.game h4 {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.game p {
+    color: #9995b2;
+    font-size: 11px;
+}
+
+.promo {
+    background: #19172a;
+    border: 1px solid #302a49;
+    padding: 19px;
+    border-radius: 17px;
+    margin-top: 25px;
+}
+
+.promo h3 {
+    margin-bottom: 8px;
+}
+
+.promo p {
+    color: #aaa5c0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #171528;
+    border-top: 1px solid #302a49;
+    display: flex;
+    justify-content: space-around;
+    padding: 13px 5px;
+    padding-bottom: max(13px, env(safe-area-inset-bottom));
+}
+
+nav button {
+    background: none;
+    border: none;
+    color: #9995b2;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+nav button.active {
+    color: #a78bfa;
+}
+
+nav span {
+    display: block;
+    font-size: 21px;
+    margin-bottom: 5px;
+}
+
+@media (min-width: 600px) {
+    body {
+        max-width: 600px;
+        margin: auto;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="header">
-        <div class="logo">🎮 FESHTA</div>
-        <div>👤 Player</div>
+<header>
+    <div class="logo">🎮 FESHTA</div>
+    <div class="profile">👤 Player</div>
+</header>
+
+<section class="welcome">
+    <h2>Welcome back! 👋</h2>
+    <p class="muted">Your gaming adventure starts here.</p>
+</section>
+
+<section class="wallet">
+    <div class="wallet-label">💰 YOUR VIRTUAL COINS</div>
+    <div class="balance">1,000 🪙</div>
+    <div class="wallet-label">Keep playing and earn more points!</div>
+    <button onclick="showMessage('Your virtual wallet is coming soon!')">
+        View Wallet →
+    </button>
+</section>
+
+<div class="section-title">
+    <h3>🎮 Popular Games</h3>
+    <span>Explore all →</span>
+</div>
+
+<section class="games">
+
+    <div class="game" onclick="showMessage('Dice Game coming soon!')">
+        <div class="game-icon">🎲</div>
+        <h4>Dice Game</h4>
+        <p>Test your luck and skill</p>
     </div>
 
-    <div class="wallet">
-        <div>💰 YOUR VIRTUAL BALANCE</div>
-        <div class="balance">1,000 🪙</div>
-        <p>Welcome to your gaming world!</p>
+    <div class="game" onclick="showMessage('Card Game coming soon!')">
+        <div class="game-icon">🃏</div>
+        <h4>Card Game</h4>
+        <p>Challenge yourself</p>
     </div>
 
-    <h2>🎮 Games Lobby</h2>
-
-    <div class="games">
-        <div class="game">
-            <div class="game-icon">🎲</div>
-            Dice Game
-        </div>
-
-        <div class="game">
-            <div class="game-icon">🃏</div>
-            Card Game
-        </div>
-
-        <div class="game">
-            <div class="game-icon">🎯</div>
-            Lucky Target
-        </div>
-
-        <div class="game">
-            <div class="game-icon">🧩</div>
-            Puzzle Game
-        </div>
+    <div class="game" onclick="showMessage('Lucky Target coming soon!')">
+        <div class="game-icon">🎯</div>
+        <h4>Lucky Target</h4>
+        <p>Hit your target</p>
     </div>
 
-    <div class="nav">
-        <span>🏠<br>Home</span>
-        <span>🎮<br>Games</span>
-        <span>🏆<br>Rank</span>
-        <span>👤<br>Profile</span>
+    <div class="game" onclick="showMessage('Puzzle Game coming soon!')">
+        <div class="game-icon">🧩</div>
+        <h4>Puzzle Game</h4>
+        <p>Train your brain</p>
     </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-    </script>
+</section>
+
+<section class="promo">
+    <h3>💜 Invite Your Friends</h3>
+    <p>Bring your friends to FESHTA and enjoy gaming together!</p>
+</section>
+
+<nav>
+    <button class="active" onclick="showMessage('Home')">
+        <span>🏠</span>Home
+    </button>
+    <button onclick="showMessage('Games lobby coming soon!')">
+        <span>🎮</span>Games
+    </button>
+    <button onclick="showMessage('Leaderboard coming soon!')">
+        <span>🏆</span>Rank
+    </button>
+    <button onclick="showMessage('Player profile coming soon!')">
+        <span>👤</span>Profile
+    </button>
+</nav>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+function showMessage(message) {
+    if (tg.showAlert) {
+        tg.showAlert(message);
+    } else {
+        alert(message);
+    }
+}
+</script>
 
 </body>
 </html>
