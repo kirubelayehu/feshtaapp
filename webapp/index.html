@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FESHTA Gaming</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #101322;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #a78bfa;
+        }
+
+        .wallet {
+            background: #242944;
+            padding: 18px;
+            border-radius: 16px;
+            margin-top: 25px;
+        }
+
+        .balance {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        .games {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .game {
+            background: #242944;
+            padding: 22px 12px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .game-icon {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            background: #242944;
+            padding: 17px 5px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .nav span {
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="logo">🎮 FESHTA</div>
+        <div>👤 Player</div>
+    </div>
+
+    <div class="wallet">
+        <div>💰 YOUR VIRTUAL BALANCE</div>
+        <div class="balance">1,000 🪙</div>
+        <p>Welcome to your gaming world!</p>
+    </div>
+
+    <h2>🎮 Games Lobby</h2>
+
+    <div class="games">
+        <div class="game">
+            <div class="game-icon">🎲</div>
+            Dice Game
+        </div>
+
+        <div class="game">
+            <div class="game-icon">🃏</div>
+            Card Game
+        </div>
+
+        <div class="game">
+            <div class="game-icon">🎯</div>
+            Lucky Target
+        </div>
+
+        <div class="game">
+            <div class="game-icon">🧩</div>
+            Puzzle Game
+        </div>
+    </div>
+
+    <div class="nav">
+        <span>🏠<br>Home</span>
+        <span>🎮<br>Games</span>
+        <span>🏆<br>Rank</span>
+        <span>👤<br>Profile</span>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+    </script>
+
+</body>
+</html>
