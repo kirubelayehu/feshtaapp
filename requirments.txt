@@ -1,0 +1,7 @@
+python-telegram-bot
+python-dotenv
+flask
+flask-sqlalchemy
+flask-cors
+psycopg2-binary
+gunicorn

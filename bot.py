@@ -8,13 +8,14 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )   
+from telegram import WebAppInfo
 from dotenv import load_dotenv
 load_dotenv()
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     keyboard = [
-        [KeyboardButton("🎮 Play Games")],
+        [KeyboardButton("🎮 Play Games",web_app=WebAppInfo(url="https://feshta.onrender.com"))],
         [
             KeyboardButton("💌 Invite Friends"),
             KeyboardButton("🆘 Support"),
