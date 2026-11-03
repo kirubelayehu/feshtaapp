@@ -1,7 +1,8 @@
-python-telegram-bot
-python-dotenv
 flask
 flask-sqlalchemy
 flask-cors
 psycopg2-binary
+psycopg
 gunicorn
+python-telegram-bot
+python-dotenv
