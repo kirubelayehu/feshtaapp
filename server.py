@@ -190,6 +190,7 @@ def home():
 # PLAYER ACCOUNT API
 # -----------------------------
 
+
 @app.route("/api/me", methods=["GET"])
 def get_my_account():
 
@@ -200,26 +201,35 @@ def get_my_account():
             "error": "Telegram authentication required"
         }), 401
 
-    user_data = verify_telegram_data(init_data)
+    try:
+        user_data = verify_telegram_data(init_data)
 
-    if not user_data:
+        if not user_data:
+            print("FESHTA ERROR: Telegram authentication failed")
+            return jsonify({
+                "error": "Invalid or expired Telegram authentication"
+            }), 401
+
+        player = get_or_create_player(user_data)
+
         return jsonify({
-            "error": "Invalid or expired Telegram authentication"
-        }), 401
+            "success": True,
+            "player": {
+                "telegram_id": player.telegram_id,
+                "username": player.username,
+                "first_name": player.first_name,
+                "last_name": player.last_name,
+                "coins": player.coins
+            }
+        })
 
-    player = get_or_create_player(user_data)
+    except Exception as error:
+        db.session.rollback()
+        app.logger.exception("FESHTA account API failed")
 
-    return jsonify({
-        "success": True,
-        "player": {
-            "telegram_id": player.telegram_id,
-            "username": player.username,
-            "first_name": player.first_name,
-            "last_name": player.last_name,
-            "coins": player.coins
-        }
-    })
-
+        return jsonify({
+            "error": "Account service temporarily unavailable"
+        }), 500
 
 # -----------------------------
 # CREATE DATABASE TABLES
