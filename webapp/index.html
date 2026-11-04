@@ -642,6 +642,7 @@ alert("Backend response: " + response.status);
     walletStatus.textContent = error.message;
   }
 }
+loadPlayerAccount();
 
 function openGame(game) {
   showMessage(game + " will be available soon!");
@@ -659,7 +660,6 @@ function selectTab(button, tab) {
   }
 }
 
-loadPlayerAccount();
 
 const API_URL = "https://feshta-backend.onrender.com";
 </script>
