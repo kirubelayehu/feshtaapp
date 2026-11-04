@@ -37,10 +37,11 @@ async def menu_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
 
     if text == "🎮 Play Games":
-        await update.message.reply_text(
-            "🎮 Welcome to FESHTA Games!\n\n"
-            "Choose your game. More games coming soon!"
-        )
+        # await update.message.reply_text(
+        #     "🎮 Welcome to FESHTA Games!\n\n"
+        #     "Choose your game. More games coming soon!"
+        # )
+        start();
     
     elif text == "💌 Invite Friends":
         await update.message.reply_text(
