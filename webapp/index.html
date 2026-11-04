@@ -99,6 +99,124 @@ header {
 main {
   padding: 10px 8px;
 }
+/* FESHTA LUCKY SPIN */
+
+.spin-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0,0,0,.96);
+  padding: 25px 15px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.spin-modal.active {
+  display: block;
+}
+
+.spin-title {
+  color: var(--gold-light);
+  font-size: 25px;
+  margin-top: 25px;
+}
+
+.spin-subtitle {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.wheel-container {
+  width: 280px;
+  height: 280px;
+  max-width: 85vw;
+  max-height: 85vw;
+  margin: 35px auto 20px;
+  position: relative;
+}
+
+.wheel-pointer {
+  position: absolute;
+  z-index: 5;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 30px;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 7px solid var(--gold);
+  background: conic-gradient(
+    from -90deg,
+    #7e5b12 0deg 144deg,
+    #252017 144deg 252deg,
+    #b58a24 252deg 324deg,
+    #252017 324deg 352.8deg,
+    #e8c65c 352.8deg 360deg
+  );
+  box-shadow: 0 0 25px #d4af3755;
+  transition: transform 5s cubic-bezier(.12,.75,.15,1);
+  display: grid;
+  place-items: center;
+}
+
+.wheel-center {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background: #090909;
+  border: 4px solid var(--gold);
+  display: grid;
+  place-items: center;
+  color: var(--gold-light);
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.reward-list {
+  color: #ddd;
+  font-size: 12px;
+  line-height: 2;
+}
+
+.spin-button {
+  width: 85%;
+  max-width: 300px;
+  padding: 15px;
+  background: linear-gradient(120deg,#f5d778,#b58a24);
+  color: #090909;
+  border: none;
+  border-radius: 10px;
+  font-weight: 900;
+  font-size: 16px;
+  margin: 15px auto;
+}
+
+.spin-button:disabled {
+  opacity: .5;
+}
+
+.close-spin {
+  display: block;
+  margin: 15px auto;
+  background: transparent;
+  border: 1px solid #777;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 8px;
+}
+
+.spin-result {
+  color: var(--gold-light);
+  font-weight: bold;
+  font-size: 19px;
+  min-height: 30px;
+}
 
 /* PROMOTION */
 
@@ -525,6 +643,48 @@ nav span {
 
   <div id="transactionHistory"></div>
 </section>
+<!-- LUCKY SPIN SCREEN -->
+
+<section class="spin-modal" id="spinModal">
+
+  <h2 class="spin-title">♛ LUCKY SPIN</h2>
+
+  <p class="spin-subtitle">
+    Spin the royal wheel and win virtual coins!
+  </p>
+
+  <div class="wheel-container">
+
+    <div class="wheel-pointer">▼</div>
+
+    <div class="wheel" id="luckyWheel">
+      <div class="wheel-center">FESHTA</div>
+    </div>
+
+  </div>
+
+  <div class="reward-list">
+    0 🪙 — 40% chance<br>
+    25 🪙 — 30% chance<br>
+    50 🪙 — 20% chance<br>
+    100 🪙 — 8% chance<br>
+    250 🪙 — 2% chance
+  </div>
+
+  <div class="spin-result" id="spinResult"></div>
+
+  <button
+    class="spin-button"
+    id="spinButton"
+    onclick="playLuckySpin()">
+    🎰 SPIN FOR 50 COINS
+  </button>
+
+  <button class="close-spin" onclick="closeSpin()">
+    ← Back to FESHTA
+  </button>
+
+</section>
 </main>
 
 <!-- BOTTOM MENU -->
@@ -671,21 +831,37 @@ async function loadPlayerAccount() {
 loadPlayerAccount();
 
 
-async function openGame(game) {
+function openGame(game) {
   if (game !== "Lucky Spin") {
     showMessage(game + " will be available soon!");
     return;
   }
 
-  if (!confirm("Spin Lucky Spin for 50 coins?")) {
+  document.getElementById("spinModal").classList.add("active");
+  document.getElementById("spinResult").textContent = "";
+}
+
+function closeSpin() {
+  document.getElementById("spinModal").classList.remove("active");
+}
+
+async function playLuckySpin() {
+  const button = document.getElementById("spinButton");
+  const wheel = document.getElementById("luckyWheel");
+  const result = document.getElementById("spinResult");
+
+  if (!tg || !tg.initData) {
+    showMessage("Please open FESHTA inside Telegram.");
     return;
   }
 
-  try {
-    showMessage("Spinning...");
+  button.disabled = true;
+  button.textContent = "SPINNING...";
+  result.textContent = "Good luck! 👑";
 
+  try {
     const response = await fetch(
-      "https://feshta-backend.onrender.com/api/lucky-spin",
+      API_URL + "/api/lucky-spin",
       {
         method: "POST",
         headers: {
@@ -700,22 +876,132 @@ async function openGame(game) {
       throw new Error(data.error || "Spin failed.");
     }
 
+    const rewardAngles = {
+      0: 72,
+      25: 198,
+      50: 288,
+      100: 338.4,
+      250: 356.4
+    };
+
+    const target = rewardAngles[data.reward];
+
+    wheel.style.transition = "none";
+    wheel.style.transform = "rotate(0deg)";
+    void wheel.offsetWidth;
+
+    wheel.style.transition =
+      "transform 5s cubic-bezier(.12,.75,.15,1)";
+
+    wheel.style.transform =
+      "rotate(" + (1800 + 360 - target) + "deg)";
+
+    await new Promise(resolve => setTimeout(resolve, 5200));
+
     document.getElementById("topBalance").textContent =
-      "🪙 " + data.coins.toLocaleString();
+      "🪙 " + Number(data.coins).toLocaleString();
 
     document.getElementById("walletBalance").textContent =
-      data.coins.toLocaleString() + " 🪙";
+      Number(data.coins).toLocaleString() + " 🪙";
 
-    showMessage(
-      "🎉 You won " + data.reward +
-      " coins!\nYour balance: " + data.coins + " coins."
-    );
+    result.textContent =
+      "🎉 YOU WON " + data.reward + " COINS!";
+
+    loadTransactions();
 
   } catch (error) {
-    showMessage(error.message);
+    result.textContent = error.message;
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "🎰 SPIN FOR 50 COINS";
   }
+}function openGame(game) {
+  if (game !== "Lucky Spin") {
+    showMessage(game + " will be available soon!");
+    return;
+  }
+
+  document.getElementById("spinModal").classList.add("active");
+  document.getElementById("spinResult").textContent = "";
 }
 
+function closeSpin() {
+  document.getElementById("spinModal").classList.remove("active");
+}
+
+async function playLuckySpin() {
+  const button = document.getElementById("spinButton");
+  const wheel = document.getElementById("luckyWheel");
+  const result = document.getElementById("spinResult");
+
+  if (!tg || !tg.initData) {
+    showMessage("Please open FESHTA inside Telegram.");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "SPINNING...";
+  result.textContent = "Good luck! 👑";
+
+  try {
+    const response = await fetch(
+      API_URL + "/api/lucky-spin",
+      {
+        method: "POST",
+        headers: {
+          "X-Telegram-Init-Data": tg.initData
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Spin failed.");
+    }
+
+    const rewardAngles = {
+      0: 72,
+      25: 198,
+      50: 288,
+      100: 338.4,
+      250: 356.4
+    };
+
+    const target = rewardAngles[data.reward];
+
+    wheel.style.transition = "none";
+    wheel.style.transform = "rotate(0deg)";
+    void wheel.offsetWidth;
+
+    wheel.style.transition =
+      "transform 5s cubic-bezier(.12,.75,.15,1)";
+
+    wheel.style.transform =
+      "rotate(" + (1800 + 360 - target) + "deg)";
+
+    await new Promise(resolve => setTimeout(resolve, 5200));
+
+    document.getElementById("topBalance").textContent =
+      "🪙 " + Number(data.coins).toLocaleString();
+
+    document.getElementById("walletBalance").textContent =
+      Number(data.coins).toLocaleString() + " 🪙";
+
+    result.textContent =
+      "🎉 YOU WON " + data.reward + " COINS!";
+
+    loadTransactions();
+
+  } catch (error) {
+    result.textContent = error.message;
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "🎰 SPIN FOR 50 COINS";
+  }
+}
 function selectTab(button, tab) {
   document.querySelectorAll("nav button").forEach(item => {
     item.classList.remove("active");
