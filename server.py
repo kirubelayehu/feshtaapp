@@ -198,6 +198,44 @@ def get_or_create_player(user_data):
     return player
 
 
+def process_coin_transaction(telegram_id, amount, transaction_type, description):
+    if amount <= 0:
+        raise ValueError("Amount must be greater than zero.")
+
+    if transaction_type not in ("earn", "spend"):
+        raise ValueError("Invalid transaction type.")
+
+    try:
+        player = Player.query.filter_by(
+            telegram_id=telegram_id
+        ).with_for_update().first()
+
+        if not player:
+            raise ValueError("Player not found.")
+
+        if transaction_type == "spend":
+            if player.coins < amount:
+                raise ValueError("Not enough coins.")
+
+            player.coins -= amount
+        else:
+            player.coins += amount
+
+        transaction = CoinTransaction(
+            telegram_id=telegram_id,
+            amount=amount if transaction_type == "earn" else -amount,
+            transaction_type=transaction_type,
+            description=description
+        )
+
+        db.session.add(transaction)
+        db.session.commit()
+
+        return player.coins
+
+    except Exception:
+        db.session.rollback()
+        raise
 # -----------------------------
 # HEALTH CHECK
 # -----------------------------
