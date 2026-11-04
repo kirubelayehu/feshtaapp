@@ -11,6 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy.exc import SQLAlchemyError
 from flask import request, jsonify
+import secrets
 # -----------------------------
 # CONFIGURATION
 # -----------------------------
@@ -326,6 +327,86 @@ def get_transactions():
             for transaction in transactions
         ]
     })
+@app.route("/api/lucky-spin", methods=["POST"])
+def lucky_spin():
+    init_data = request.headers.get("X-Telegram-Init-Data", "")
+    user_data = verify_telegram_data(init_data)
+
+    if not user_data:
+        return jsonify({
+            "success": False,
+            "error": "Authentication failed"
+        }), 401
+
+    telegram_id = int(user_data["id"])
+
+    try:
+        player = Player.query.filter_by(
+            telegram_id=telegram_id
+        ).with_for_update().first()
+
+        if not player:
+            return jsonify({
+                "success": False,
+                "error": "Player not found"
+            }), 404
+
+        spin_cost = 50
+
+        if player.coins < spin_cost:
+            return jsonify({
+                "success": False,
+                "error": "Not enough coins"
+            }), 400
+
+        roll = secrets.randbelow(100)
+
+        if roll < 40:
+            reward = 0
+        elif roll < 70:
+            reward = 25
+        elif roll < 90:
+            reward = 50
+        elif roll < 98:
+            reward = 100
+        else:
+            reward = 250
+
+        player.coins -= spin_cost
+
+        db.session.add(CoinTransaction(
+            telegram_id=telegram_id,
+            amount=-spin_cost,
+            transaction_type="spend",
+            description="Lucky Spin"
+        ))
+
+        if reward > 0:
+            player.coins += reward
+
+            db.session.add(CoinTransaction(
+                telegram_id=telegram_id,
+                amount=reward,
+                transaction_type="earn",
+                description="Lucky Spin reward"
+            ))
+
+        db.session.commit()
+
+        return jsonify({
+            "success": True,
+            "reward": reward,
+            "coins": player.coins
+        })
+
+    except Exception:
+        db.session.rollback()
+        app.logger.exception("Lucky Spin failed")
+
+        return jsonify({
+            "success": False,
+            "error": "Spin failed. Please try again."
+        }), 500
 # -----------------------------
 # CREATE DATABASE TABLES
 # -----------------------------

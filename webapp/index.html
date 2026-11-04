@@ -671,8 +671,49 @@ async function loadPlayerAccount() {
 loadPlayerAccount();
 
 
-function openGame(game) {
-  showMessage(game + " will be available soon!");
+async function openGame(game) {
+  if (game !== "Lucky Spin") {
+    showMessage(game + " will be available soon!");
+    return;
+  }
+
+  if (!confirm("Spin Lucky Spin for 50 coins?")) {
+    return;
+  }
+
+  try {
+    showMessage("Spinning...");
+
+    const response = await fetch(
+      "https://feshta-backend.onrender.com/api/lucky-spin",
+      {
+        method: "POST",
+        headers: {
+          "X-Telegram-Init-Data": tg.initData
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Spin failed.");
+    }
+
+    document.getElementById("topBalance").textContent =
+      "🪙 " + data.coins.toLocaleString();
+
+    document.getElementById("walletBalance").textContent =
+      data.coins.toLocaleString() + " 🪙";
+
+    showMessage(
+      "🎉 You won " + data.reward +
+      " coins!\nYour balance: " + data.coins + " coins."
+    );
+
+  } catch (error) {
+    showMessage(error.message);
+  }
 }
 
 function selectTab(button, tab) {
