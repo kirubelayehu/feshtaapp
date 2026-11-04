@@ -509,10 +509,10 @@ nav span {
   <!-- VIRTUAL WALLET -->
 
   <section class="wallet-box">
-    <h3>👑 Your FESHTA Wallet</h3>
-    <div class="wallet-coins">Loading ....🪙</div>
-    <p>Connecting To Your FESHTA Account ...</p>
-  </section>
+  <h3>👑 Your FESHTA Wallet</h3>
+  <div class="wallet-coins" id="walletBalance">Loading... 🪙</div>
+  <p id="walletStatus">Connecting to your FESHTA account...</p>
+</section>
 
 </main>
 
@@ -543,47 +543,6 @@ nav span {
 </nav>
 
 <script>
-// alert("Telegram object: " + (typeof window.Telegram));
-
-alert("Mini App data: " + (window.Telegram?.WebApp?.initData ? "AVAILABLE":"MISSING"));
-//console.log("FESHTA JavaScript is running!");
-//alert("FESHTA JavaScript is running!");
- 
-
-// if (tg) {
-//   tg.ready();
-//   tg.expand();
-//   tg.setHeaderColor('#090909');
-//   tg.setBackgroundColor('#090909');
-// }
-
-// function showMessage(message) {
-//   if (tg) {
-//     tg.showAlert(message);
-//   } else {
-//     alert(message);
-//   }
-// }
-
-// function openGame(game) {
-//   showMessage(game + ' will be available soon!');
-// }
-
-// function selectTab(button, tab) {
-
-//   document.querySelectorAll('nav button').forEach(item => {
-//     item.classList.remove('active');
-//   });
-
-//   button.classList.add('active');
-
-//   if (tab !== 'Home') {
-//     showMessage(tab + ' section is coming soon!');
-//   }
-// }
-
-
-
 const API_URL = "https://feshta-backend.onrender.com";
 const tg = window.Telegram?.WebApp;
 
@@ -606,23 +565,24 @@ function showMessage(message) {
  
 
 async function loadPlayerAccount() {
-  alert("STEP 1: Function started");
-
   const topBalance = document.getElementById("topBalance");
   const walletBalance = document.getElementById("walletBalance");
   const walletStatus = document.getElementById("walletStatus");
 
-  alert("STEP 2: HTML elements found");
-
-  if (!tg || !tg.initData) {
-    alert("STEP 3: Telegram data missing");
+  if (!topBalance || !walletBalance || !walletStatus) {
+    alert("Wallet HTML elements are missing!");
     return;
   }
 
-  alert("STEP 3: Telegram data available");
+  if (!tg || !tg.initData) {
+    topBalance.textContent = "🪙 --";
+    walletBalance.textContent = "--";
+    walletStatus.textContent = "Open FESHTA inside Telegram.";
+    return;
+  }
 
   try {
-    alert("STEP 4: About to contact backend");
+    walletStatus.textContent = "Connecting to your account...";
 
     const response = await fetch(
       "https://feshta-backend.onrender.com/api/me",
@@ -634,17 +594,27 @@ async function loadPlayerAccount() {
       }
     );
 
-    alert("STEP 5: Backend status " + response.status);
-
     const data = await response.json();
 
-    alert("STEP 6: " + JSON.stringify(data));
+    if (!response.ok) {
+      throw new Error(data.error || "Account connection failed");
+    }
+
+    const coins = Number(data.player.coins).toLocaleString();
+
+    topBalance.textContent = `🪙 ${coins}`;
+    walletBalance.textContent = `${coins} 🪙`;
+    walletStatus.textContent =
+      "Your virtual coin balance is saved securely.";
 
   } catch (error) {
-    alert("FETCH ERROR: " + error.message);
+    console.error("FESHTA account error:", error);
+
+    topBalance.textContent = "🪙 Error";
+    walletBalance.textContent = "Unavailable";
+    walletStatus.textContent = error.message;
   }
 }
-
 loadPlayerAccount();
 
 
