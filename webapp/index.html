@@ -99,6 +99,98 @@ header {
 main {
   padding: 10px 8px;
 }
+/* FESHTA PROFILE PAGE */
+
+.profile-page {
+  display: none;
+  padding: 12px 4px;
+}
+
+.profile-card {
+  background: linear-gradient(145deg, #30240e, #17130c);
+  border: 1px solid var(--gold);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.profile-avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #f5d778, #8b681b);
+  color: #090909;
+  font-size: 35px;
+  border: 3px solid var(--gold-light);
+}
+
+.profile-card h2 {
+  color: var(--gold-light);
+  margin: 5px 0;
+  font-size: 20px;
+}
+
+.profile-card p {
+  color: #aaa;
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.profile-stat {
+  background: var(--panel);
+  border: 1px solid #40351e;
+  border-radius: 10px;
+  padding: 15px 10px;
+  text-align: center;
+}
+
+.profile-stat small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.profile-stat h3 {
+  color: var(--gold-light);
+  margin: 8px 0 0;
+  font-size: 19px;
+}
+
+.profile-menu {
+  background: var(--panel);
+  border: 1px solid #393126;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.profile-menu button {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #333;
+  padding: 17px;
+  color: white;
+  text-align: left;
+  font-size: 13px;
+}
+
+.profile-menu button:last-child {
+  border-bottom: none;
+}
+
+.profile-menu button:active {
+  background: #302719;
+}   
 /* FESHTA LUCKY SPIN */
 
 .spin-modal {
@@ -643,6 +735,58 @@ nav span {
 
   <div id="transactionHistory"></div>
 </section>
+</section>
+
+<!-- PROFILE PAGE -->
+
+<section class="profile-page" id="profilePage">
+
+  <div class="profile-card">
+    <div class="profile-avatar">👑</div>
+    <h2 id="profileName">FESHTA Player</h2>
+    <p id="profileUsername">@username</p>
+    <p>♛ ROYAL ARENA MEMBER</p>
+  </div>
+
+  <div class="profile-stats">
+
+    <div class="profile-stat">
+      <small>COIN BALANCE</small>
+      <h3 id="profileCoins">Loading...</h3>
+    </div>
+
+    <div class="profile-stat">
+      <small>PLAYER STATUS</small>
+      <h3>ACTIVE</h3>
+    </div>
+
+  </div>
+
+  <div class="section-heading">
+    <h2>👑 Account Settings</h2>
+  </div>
+
+  <div class="profile-menu">
+
+    <button onclick="loadTransactions()">
+      📜 Transaction History
+    </button>
+
+    <button onclick="showMessage('Achievements coming soon!')">
+      🏆 My Achievements
+    </button>
+
+    <button onclick="showMessage('Support information coming soon!')">
+      🎧 Customer Support
+    </button>
+
+    <button onclick="showMessage('FESHTA uses virtual coins for entertainment.')">
+      ℹ️ About FESHTA
+    </button>
+
+  </div>
+
+</section>
 <!-- LUCKY SPIN SCREEN -->
 
 <section class="spin-modal" id="spinModal">
@@ -929,7 +1073,48 @@ async function playLuckySpin() {
 function closeSpin() {
   document.getElementById("spinModal").classList.remove("active");
 }
+async function loadProfile() {
 
+  const user = tg?.initDataUnsafe?.user;
+
+  if (user) {
+    const name = [user.first_name, user.last_name]
+      .filter(Boolean)
+      .join(" ");
+
+    document.getElementById("profileName").textContent =
+      name || "FESHTA Player";
+
+    document.getElementById("profileUsername").textContent =
+      user.username ? "@" + user.username : "Telegram Player";
+  }
+
+  if (!tg || !tg.initData) {
+    document.getElementById("profileCoins").textContent = "--";
+    return;
+  }
+
+  try {
+    const response = await fetch(API_URL + "/api/me", {
+      headers: {
+        "X-Telegram-Init-Data": tg.initData
+      }
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error("Could not load account.");
+    }
+
+    document.getElementById("profileCoins").textContent =
+      Number(data.player.coins).toLocaleString() + " 🪙";
+
+  } catch (error) {
+    document.getElementById("profileCoins").textContent = "Unavailable";
+    console.error(error);
+  }
+}
 async function playLuckySpin() {
   const button = document.getElementById("spinButton");
   const wheel = document.getElementById("luckyWheel");
@@ -1003,14 +1188,27 @@ async function playLuckySpin() {
   }
 }
 function selectTab(button, tab) {
+
   document.querySelectorAll("nav button").forEach(item => {
     item.classList.remove("active");
   });
 
   button.classList.add("active");
 
-  if (tab !== "Home") {
-    showMessage(tab + " section is coming soon!");
+  const homePage = document.getElementById("homePage");
+  const profilePage = document.getElementById("profilePage");
+
+  if (tab === "Profile") {
+    homePage.style.display = "none";
+    profilePage.style.display = "block";
+    loadProfile();
+  } else {
+    profilePage.style.display = "none";
+    homePage.style.display = "block";
+
+    if (tab !== "Home") {
+      showMessage(tab + " section is coming soon!");
+    }
   }
 }
 </script>
