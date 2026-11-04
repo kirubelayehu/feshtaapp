@@ -579,7 +579,8 @@ nav span {
 
 const tg = window.Telegram?.WebApp;
 
-
+console.log("Telegram object:", tg);
+console.log("Telegram initData:", tg?.initData);
 if (tg) {
   tg.ready();
   tg.expand();

@@ -11,31 +11,27 @@ from telegram.ext import (
 from telegram import WebAppInfo
 from dotenv import load_dotenv
 load_dotenv()
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start(update, context):
 
     keyboard = [
-        [KeyboardButton("🎮 Play Games",web_app=WebAppInfo(url="https://feshta.onrender.com"))],
         [
-            KeyboardButton("💌 Invite Friends"),
-            KeyboardButton("🆘 Support"),
-        ],
+            InlineKeyboardButton(
+                "👑 OPEN FESHTA",
+                web_app=WebAppInfo(
+                    url="https://feshta.onrender.com"
+                )
+            )
+        ]
     ]
 
-    reply_markup = ReplyKeyboardMarkup(
-        keyboard,
-        resize_keyboard=True,
-        is_persistent=True
-    )
+    reply_markup = InlineKeyboardMarkup(keyboard)
 
     await update.message.reply_text(
-        "🎉 Welcome to FESHTA! 🎮\n\n"
-        "It's Game Time! Good Luck! 🍀\n\n"
-        "⬇️ Discover more in the menu! ⬇️",
+        "👑 Welcome to FESHTA!\n\nEnter the Royal Arena and enjoy the games.",
         reply_markup=reply_markup
     )
-
-
 async def menu_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     text = update.message.text
