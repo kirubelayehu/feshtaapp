@@ -542,6 +542,9 @@ nav span {
 </nav>
 
 <script>
+  alert("Telegram object: " + (typeof window.Telegram));
+
+alert("Mini App data: " + (window.Telegram?.WebApp?.initData ? "AVAILABLE" : "MISSING"));
 console.log("runn away");
 // const tg = window.Telegram?.WebApp;
 
