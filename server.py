@@ -9,8 +9,8 @@ from urllib.parse import parse_qsl
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-
-
+from sqlalchemy.exc import SQLAlchemyError
+from flask import request, jsonify
 # -----------------------------
 # CONFIGURATION
 # -----------------------------
@@ -292,7 +292,40 @@ def get_my_account():
         return jsonify({
             "error": "Account service temporarily unavailable"
         }), 500
+@app.route("/api/transactions", methods=["GET"])
+def get_transactions():
+    init_data = request.headers.get("X-Telegram-Init-Data", "")
 
+    user_data = verify_telegram_data(init_data)
+
+    if not user_data:
+        return jsonify({
+            "success": False,
+            "error": "Authentication failed"
+        }), 401
+
+    telegram_id = int(user_data["id"])
+
+    transactions = (
+        CoinTransaction.query
+        .filter_by(telegram_id=telegram_id)
+        .order_by(CoinTransaction.created_at.desc())
+        .limit(50)
+        .all()
+    )
+
+    return jsonify({
+        "success": True,
+        "transactions": [
+            {
+                "amount": transaction.amount,
+                "type": transaction.transaction_type,
+                "description": transaction.description,
+                "created_at": transaction.created_at.isoformat()
+            }
+            for transaction in transactions
+        ]
+    })
 # -----------------------------
 # CREATE DATABASE TABLES
 # -----------------------------
