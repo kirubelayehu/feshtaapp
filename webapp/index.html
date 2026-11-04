@@ -77,9 +77,8 @@ header {
   height: 36px;
   border: 0;
   border-radius: 8px;
-  background: #D4BF37;
+  background: #D4AF37;
   color: #090909;
-  align-items: center;
   font-size: 19px;
   font-weight: bold;
 }
@@ -383,7 +382,9 @@ nav span {
     <div class="balance" id="topBalance">🪙 ....</div>
 
     <button class="icon-button"
-      onclick="showMessage('Virtual coin features coming soon.')">+</button>
+      onclick="showMessage('Virtual coin features coming soon.')">
+      +
+    </button>
 
     <div class="avatar"
       onclick="showMessage('Player profile coming soon.')">
@@ -507,12 +508,23 @@ nav span {
 
   <!-- VIRTUAL WALLET -->
 
-  <section class="wallet-box">
+ <section class="wallet-box">
   <h3>👑 Your FESHTA Wallet</h3>
-  <div class="wallet-coins" id="walletBalance">Loading... 🪙</div>
-  <p id="walletStatus">Connecting to your FESHTA account...</p>
-</section>
 
+  <div class="wallet-coins" id="walletBalance">
+    Loading... 🪙
+  </div>
+
+  <p id="walletStatus">
+    Connecting to your FESHTA account...
+  </p>
+
+  <button onclick="loadTransactions()">
+    📜 Transaction History
+  </button>
+
+  <div id="transactionHistory"></div>
+</section>
 </main>
 
 <!-- BOTTOM MENU -->
@@ -562,7 +574,49 @@ function showMessage(message) {
   }
 }
  
+async function loadTransactions() {
+  const history = document.getElementById("transactionHistory");
 
+  history.textContent = "Loading transactions...";
+
+  if (!tg || !tg.initData) {
+    history.textContent = "Please open FESHTA inside Telegram.";
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      "https://feshta-backend.onrender.com/api/transactions",
+      {
+        headers: {
+          "X-Telegram-Init-Data": tg.initData
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Could not load history.");
+    }
+
+    if (data.transactions.length === 0) {
+      history.textContent = "No transactions yet.";
+      return;
+    }
+
+    history.innerHTML = data.transactions.map(item => `
+      <p>
+        ${item.type === "earn" ? "🟢" : "🔴"}
+        ${item.amount} coins -
+        ${item.description || item.type}
+      </p>
+    `).join("");
+
+  } catch (error) {
+    history.textContent = error.message;
+  }
+}
 async function loadPlayerAccount() {
   const topBalance = document.getElementById("topBalance");
   const walletBalance = document.getElementById("walletBalance");
