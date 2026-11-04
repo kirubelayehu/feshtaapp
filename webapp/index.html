@@ -622,7 +622,7 @@ async function loadPlayerAccount() {
         "X-Telegram-Init-Data": tg.initData
       }
     });
-
+alert("Backend response: " + response.status);
     const data = await response.json();
 
     if (!response.ok) {
